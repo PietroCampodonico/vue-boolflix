@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.20.0/axios.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css">
+  
+    <link rel="stylesheet" href="style.css">
+    <title>BoolFlix</title>
+</head>
+<body>
+
+    <div id="app">
+        <input type="text" v-model="contentResearch">
+        <button @click="onUserSearch()">Filtra i tuoi film e serie TV preferiti!</button>
+
+        <div id="palinsesto">
+            <ol>
+                <li v-for="movie in movieList" class="bg-blue">
+                    <p>{{movie.title}}</p>
+                    <p>{{movie.original_title}}</p>
+                    <p>{{movie.original_language}}</p>
+                    <p>{{movie.vote_average}}</p>
+                </li>
+    
+                <li v-for="tvSerie in tvSeriesList" class="bg-grey">
+                    <p>{{tvSerie.name}}</p>
+                    <p>{{tvSerie.original_name}}</p>
+                    <p>{{tvSerie.original_language}}</p>
+                    <p>{{tvSerie.vote_average}}</p>
+                </li>
+            </ol>
+
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

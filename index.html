@@ -27,6 +27,9 @@
                         <span v-if="getFlag(movie.original_language)">
                             <img :src="'img/'+getFlag(movie.original_language)" alt="">
                         </span>
+                        <span v-else="">
+                            <img src="img/Flag_of_the_United_Nations.svg" alt="">
+                        </span>
                     </p>
                     <p>{{movie.vote_average}}</p>
                 </li>
@@ -37,6 +40,9 @@
                     <p>{{tvSerie.original_language}}
                         <span v-if="getFlag(tvSerie.original_language)">
                             <img :src="'img/'+getFlag(tvSerie.original_language)" alt="">
+                        </span>
+                        <span v-else="">
+                            <img src="img/Flag_of_the_United_Nations.svg" alt="">
                         </span>
                     </p>
                     <p>{{tvSerie.vote_average}}</p>

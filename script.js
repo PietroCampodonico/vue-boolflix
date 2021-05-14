@@ -29,7 +29,6 @@ new Vue({
                     } else if (searchEntity === "tv") {
                         this.tvSeriesList = resp.data.results
                         console.log(this.tvSeriesList)
-
                     }
                 })
            

@@ -21,9 +21,15 @@
         <div id="palinsesto">
             <ol>
                 <li v-for="movie in movieList" class="bg-blue">
+                    <div class="poster-container" v-if="movie.poster_path!==null">
+                        <img :src="'https://image.tmdb.org/t/p/' +'w342'+movie.poster_path" alt="" class="poster">
+                    </div>
+
+                    <!-- aggiungere v-else nel caso element.poster_path==null -->
+
                     <p>"{{movie.title}}"</p>
                     <p v-if="movie.original_title!==movie.title">Titolo Originale: "{{movie.original_title}}"</p>
-                    <p>{{movie.original_language}}
+                    <p>Lingua Originale:{{movie.original_language}}
                         <span v-if="getFlag(movie.original_language)">
                             <img :src="'img/'+getFlag(movie.original_language)" alt="">
                         </span>
@@ -35,9 +41,15 @@
                 </li>
     
                 <li v-for="tvSerie in tvSeriesList" class="bg-grey">
+                    <div class="poster-container" v-if="tvSerie.poster_path!==null">
+                        <img :src="'https://image.tmdb.org/t/p/' +'w342'+tvSerie.poster_path" alt="" class="poster">
+                    </div>
+
+                    <!-- aggiungere v-else nel caso element.poster_path==null -->
+
                     <p>"{{tvSerie.name}}"</p>
                     <p v-if="tvSerie.original_name!==tvSerie.name">Titolo Originale: "{{tvSerie.original_name}}"</p>
-                    <p>{{tvSerie.original_language}}
+                    <p>Lingua Originale:{{tvSerie.original_language}}
                         <span v-if="getFlag(tvSerie.original_language)">
                             <img :src="'img/'+getFlag(tvSerie.original_language)" alt="">
                         </span>

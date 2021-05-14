@@ -4,6 +4,7 @@ new Vue({
         contentResearch: "",
         movieList: [],
         tvSeriesList: [],
+        
     },
 
     methods: {
@@ -37,6 +38,23 @@ new Vue({
         onUserSearch() {
             this.makeAxiosSearch("movie");
             this.makeAxiosSearch("tv");
+        },
+
+        getFlag(language) {
+
+            const flagMap = {
+                es: "es.svg",
+                fr: "fr.svg",
+                it: "it.svg",
+                jp: "jp.svg",
+                en: "gb-eng.svg",
+            }
+
+            if (Object.keys(flagMap).includes(language)) {
+                return flagMap[language]
+            } else {
+                return false
+            }
         }
     }
 })

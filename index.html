@@ -21,20 +21,27 @@
         <div id="palinsesto">
             <ol>
                 <li v-for="movie in movieList" class="bg-blue">
-                    <p>{{movie.title}}</p>
-                    <p>{{movie.original_title}}</p>
-                    <p>{{movie.original_language}}</p>
+                    <p>"{{movie.title}}"</p>
+                    <p v-if="movie.original_title!==movie.title">Titolo Originale: "{{movie.original_title}}"</p>
+                    <p>{{movie.original_language}}
+                        <span v-if="getFlag(movie.original_language)">
+                            <img :src="'img/'+getFlag(movie.original_language)" alt="">
+                        </span>
+                    </p>
                     <p>{{movie.vote_average}}</p>
                 </li>
     
                 <li v-for="tvSerie in tvSeriesList" class="bg-grey">
-                    <p>{{tvSerie.name}}</p>
-                    <p>{{tvSerie.original_name}}</p>
-                    <p>{{tvSerie.original_language}}</p>
+                    <p>"{{tvSerie.name}}"</p>
+                    <p v-if="tvSerie.original_name!==tvSerie.name">Titolo Originale: "{{tvSerie.original_name}}"</p>
+                    <p>{{tvSerie.original_language}}
+                        <span v-if="getFlag(tvSerie.original_language)">
+                            <img :src="'img/'+getFlag(tvSerie.original_language)" alt="">
+                        </span>
+                    </p>
                     <p>{{tvSerie.vote_average}}</p>
                 </li>
             </ol>
-
         </div>
     </div>
 

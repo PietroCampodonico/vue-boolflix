@@ -8,6 +8,7 @@
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.20.0/axios.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   
     <link rel="stylesheet" href="style.css">
     <title>BoolFlix</title>
@@ -37,7 +38,11 @@
                             <img src="img/Flag_of_the_United_Nations.svg" alt="">
                         </span>
                     </p>
-                    <p>{{movie.vote_average}}</p>
+                    <p>
+                        Average User Rating:
+                        <i v-for="index in roundVote(movie.vote_average)" class="fa fa-star" aria-hidden="true"></i>
+                        ({{movie.vote_average}})
+                    </p>
                 </li>
     
                 <li v-for="tvSerie in tvSeriesList" class="bg-grey">
@@ -57,12 +62,16 @@
                             <img src="img/Flag_of_the_United_Nations.svg" alt="">
                         </span>
                     </p>
-                    <p>{{tvSerie.vote_average}}</p>
+                    <p> 
+                        Average User Rating:
+                        <i v-for="index in roundVote(tvSerie.vote_average)" class="fa fa-star" aria-hidden="true"></i>
+                        ({{tvSerie.vote_average}})
+                    </p>
                 </li>
             </ol>
         </div>
     </div>
-
+    
     <script src="script.js"></script>
 </body>
 </html>

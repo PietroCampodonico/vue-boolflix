@@ -8,8 +8,6 @@ new Vue({
     },
 
     methods: {
-
-            
         makeAxiosSearch(searchEntity) {
 
             const axiosOptions = {
@@ -31,7 +29,6 @@ new Vue({
                         console.log(this.tvSeriesList)
                     }
                 })
-           
         },
 
         onUserSearch() {
@@ -45,7 +42,7 @@ new Vue({
                 es: "es.svg",
                 fr: "fr.svg",
                 it: "it.svg",
-                jp: "jp.svg",
+                ja: "jp.svg",
                 en: "gb-eng.svg",
             }
 
@@ -54,6 +51,12 @@ new Vue({
             } else {
                 return false
             }
+        },
+
+        roundVote(vote) {
+            let voteToStars = vote/2
+           
+            return Math.round(voteToStars)
         }
     }
 })

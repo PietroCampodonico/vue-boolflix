@@ -15,60 +15,98 @@
 </head>
 <body>
 
+
+    <!-- FIXARE BUG IN CASO DI RICERCA "ASD" -->
+
     <div id="app">
-        <input type="text" v-model="contentResearch">
-        <button @click="onUserSearch()">Filtra i tuoi film e serie TV preferiti!</button>
+        
+        <!-- NAVBAR -->
+        <nav class="bg-black display-flex">
+            <h1>BoolFlix</h1>
+
+            <div class="user-interactables display-flex">
+                <input type="text" v-model="contentResearch" @keyup.enter="onUserSearch()">
+                <button @click="onUserSearch()">CERCA</button>
+            </div>
+        </nav>
 
         <div id="palinsesto">
-            <ol>
-                <li v-for="movie in movieList" class="bg-blue">
-                    <div class="poster-container" v-if="movie.poster_path!==null">
-                        <img :src="'https://image.tmdb.org/t/p/' +'w342'+movie.poster_path" alt="" class="poster">
+            <h1 class="marg-lft-top-btm-20">Film e serie tv {{this.onLoad}}</h1>
+            <h2 v-if="researchFailed" class="marg-lft-top-btm-20">La ricerca non è andata a buon fine. Ritenta!</h2>
+
+            <!-- FILM FILTRATI-->
+            <ul class="display-flex">
+                <li v-for="media in movieList" class="bg-black">
+
+                    <!-- Copertina se presente poster-->
+                    <div class="poster-container" v-if="media.poster_path!==null">
+                        <img :src="'https://image.tmdb.org/t/p/' +'w342'+media.poster_path" alt="" class="poster">
                     </div>
 
-                    <!-- aggiungere v-else nel caso element.poster_path==null -->
-
-                    <p>"{{movie.title}}"</p>
-                    <p v-if="movie.original_title!==movie.title">Titolo Originale: "{{movie.original_title}}"</p>
-                    <p>Lingua Originale:{{movie.original_language}}
-                        <span v-if="getFlag(movie.original_language)">
-                            <img :src="'img/'+getFlag(movie.original_language)" alt="">
-                        </span>
-                        <span v-else="">
-                            <img src="img/Flag_of_the_United_Nations.svg" alt="">
-                        </span>
-                    </p>
-                    <p>
-                        Average User Rating:
-                        <i v-for="index in roundVote(movie.vote_average)" class="fa fa-star" aria-hidden="true"></i>
-                        ({{movie.vote_average}})
-                    </p>
-                </li>
-    
-                <li v-for="tvSerie in tvSeriesList" class="bg-grey">
-                    <div class="poster-container" v-if="tvSerie.poster_path!==null">
-                        <img :src="'https://image.tmdb.org/t/p/' +'w342'+tvSerie.poster_path" alt="" class="poster">
+                    <!-- Copertina se assente poster -->
+                    <div class="poster-container poster-null display-flex" v-if="media.poster_path==null">
+                        <h2>"{{media.title}}"</h2>
+                        <h2>Copertina non disponibile</h2>
                     </div>
 
-                    <!-- aggiungere v-else nel caso element.poster_path==null -->
-
-                    <p>"{{tvSerie.name}}"</p>
-                    <p v-if="tvSerie.original_name!==tvSerie.name">Titolo Originale: "{{tvSerie.original_name}}"</p>
-                    <p>Lingua Originale:{{tvSerie.original_language}}
-                        <span v-if="getFlag(tvSerie.original_language)">
-                            <img :src="'img/'+getFlag(tvSerie.original_language)" alt="">
-                        </span>
-                        <span v-else="">
-                            <img src="img/Flag_of_the_United_Nations.svg" alt="">
-                        </span>
-                    </p>
-                    <p> 
-                        Average User Rating:
-                        <i v-for="index in roundVote(tvSerie.vote_average)" class="fa fa-star" aria-hidden="true"></i>
-                        ({{tvSerie.vote_average}})
-                    </p>
+                    <!-- informazioni disponibili on hover -->
+                    <div class="media-info">
+                        <p><strong>Titolo: </strong>"{{media.title}}"</p>
+                        <p v-if="media.original_title!==media.title"><strong>Originale: </strong> "{{media.original_title}}"</p>
+                        <p class="language"><strong>Lingua Originale: {{media.original_language.toUpperCase()}}</strong> 
+                            <span v-if="getFlag(media.original_language)">
+                                <img class="flag" :src="'img/'+getFlag(media.original_language)" alt="">
+                            </span>
+                            <span v-else="">
+                                <img class="flag" src="img/Flag_of_the_United_Nations.svg" alt="">
+                            </span>
+                        </p>
+                        <p>
+                            <strong>User Rating:</strong> 
+                            <i v-for="returnedNumber in roundVote(media.vote_average)" class="fa fa-star full-star" aria-hidden="true"></i>
+                            <i v-for="returnedNumber in createEmptyStar(media.vote_average)" class="fa fa-star empty-star" aria-hidden="true"></i>
+                            ({{media.vote_average}}/10)
+                        </p>
+                        <p v-if="media.overview"><strong>Overview: </strong>{{media.overview}}</p>
+                    </div>
                 </li>
-            </ol>
+                
+                <!-- SERIE TV FILTRATE -->
+                <li v-for="media in tvSeriesList" class="bg-black">
+
+                    <!-- Copertina se presente poster-->
+                    <div class="poster-container" v-if="media.poster_path!==null">
+                        <img :src="'https://image.tmdb.org/t/p/' +'w342'+media.poster_path" alt="" class="poster">
+                    </div>
+
+                    <!-- Copertina se assente poster -->
+                    <div class="poster-container poster-null display-flex" v-if="media.poster_path==null">
+                        <h2>"{{media.name}}"</h2>
+                        <h2>Copertina non disponibile</h2>
+                    </div>
+
+                    <!-- informazioni disponibili on hover -->
+                    <div class="media-info">
+                        <p><strong>Titolo: </strong>"{{media.name}}"</p>
+                        <p v-if="media.original_name!==media.name">Titolo Originale: "{{media.original_name}}"</p>
+                        <p class="language">Lingua Originale: <strong>{{media.original_language.toUpperCase()}}</strong>
+                            <span v-if="getFlag(media.original_language)">
+                                <img class="flag" :src="'img/'+getFlag(media.original_language)" alt="">
+                            </span>
+                            <span v-else="">
+                                <img class="flag" src="img/Flag_of_the_United_Nations.svg" alt="">
+                            </span>
+                        </p>
+                        <p> 
+                            <strong>User Rating:</strong>
+                            <i v-for="returnedNumber in roundVote(media.vote_average)" class="fa fa-star full-star" aria-hidden="true"></i>
+                            <i v-for="returnedNumber in createEmptyStar(media.vote_average)" class="fa fa-star empty-star" aria-hidden="true"></i>
+                            ({{media.vote_average}}/10)
+                        </p>
+                        <p v-if="media.overview"><strong>Overview: </strong> {{media.overview}}</p>
+                    </div>
+                </li>
+            </ul>
         </div>
     </div>
     

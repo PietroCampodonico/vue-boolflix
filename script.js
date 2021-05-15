@@ -1,10 +1,11 @@
 new Vue({
     el: "#app",
     data: {
-        contentResearch: "",
+        contentResearch: "ciao",
         movieList: [],
         tvSeriesList: [],
-        
+        onLoad: "",
+        researchFailed: false,
     },
 
     methods: {
@@ -22,11 +23,15 @@ new Vue({
                 .then((resp) => {
                     if (searchEntity === "movie") {
                         this.movieList = resp.data.results
-                        console.log(this.movieList)
 
                     } else if (searchEntity === "tv") {
-                        this.tvSeriesList = resp.data.results
-                        console.log(this.tvSeriesList)
+                        this.tvSeriesList = resp.data.results                    
+                    }
+
+                    if(this.movieList.length === 0 && this.tvSeriesList.length === 0) {
+                        this.researchFailed = true
+                    } else {
+                        this.researchFailed = false
                     }
                 })
         },
@@ -34,6 +39,7 @@ new Vue({
         onUserSearch() {
             this.makeAxiosSearch("movie");
             this.makeAxiosSearch("tv");
+            this.onLoad = "ricercati:"
         },
 
         getFlag(language) {
@@ -54,9 +60,21 @@ new Vue({
         },
 
         roundVote(vote) {
-            let voteToStars = vote/2
+            let voteToStars = vote/2;
            
             return Math.round(voteToStars)
+        },
+
+        createEmptyStar(vote) {
+            let voteToStars = vote / 2;
+
+            return 5 - Math.round(voteToStars) 
         }
+    },
+
+    mounted() {
+        this.onUserSearch();
+        this.contentResearch = ""
+        this.onLoad = "consigliati:"  
     }
 })

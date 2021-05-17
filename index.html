@@ -35,7 +35,7 @@
 
             <!-- FILM FILTRATI-->
             <ul class="display-flex">
-                <li v-for="media in movieList" class="bg-dkgrey">
+                <li v-for="media in movieList" class="bg-dkgrey" @mouseover="getCast(media)">
 
                     <!-- Copertina se presente poster-->
                     <div class="poster-container" v-if="media.poster_path!==null">
@@ -50,8 +50,11 @@
 
                     <!-- informazioni disponibili on hover -->
                     <div class="media-info">
+                        <!-- titolo -->
                         <p><strong>Titolo: </strong>"{{media.title}}"</p>
+                        <!-- titolo originale -->
                         <p v-if="media.original_title!==media.title"><strong>Originale: </strong> "{{media.original_title}}"</p>
+                        <!-- lingua originale -->
                         <p class="language"><strong>Lingua Originale: {{media.original_language.toUpperCase()}}</strong> 
                             <span v-if="getFlag(media.original_language)">
                                 <img class="flag" :src="'img/'+getFlag(media.original_language)" alt="">
@@ -60,11 +63,17 @@
                                 <img class="flag" src="img/Flag_of_the_United_Nations.svg" alt="">
                             </span>
                         </p>
+                        <!-- Voto utenti -->
                         <p>
                             <strong>User Rating: </strong> 
                             <i v-for="star in voteInStars(media)" class="fa fa-star" :class="{'full-star': star, 'empty-star': !star}"></i>
                             ({{media.vote_average}}/10)
                         </p>
+                        <!-- cast -->
+                        <p><strong v-if="media.castMembers!=0">Cast: </strong>
+                            <span v-for="(actor, index) in media.castMembers" v-if="index < 5">{{actor.original_name}}; </span>
+                        </p>
+                        <!-- Estratto della trama -->
                         <p v-if="media.overview"><strong>Overview: </strong>{{media.overview}}</p>
                     </div>
                 </li>
@@ -84,9 +93,12 @@
                     </div>
 
                     <!-- informazioni disponibili on hover -->
-                    <div class="media-info">
+                <div class="media-info" @mouseover="getCast(media)">
+                        <!-- Titolo -->
                         <p><strong>Titolo: </strong>"{{media.name}}"</p>
+                        <!-- Titolo originale -->
                         <p v-if="media.original_name!==media.name">Titolo Originale: "{{media.original_name}}"</p>
+                        <!-- Lingua originale -->
                         <p class="language">Lingua Originale: <strong>{{media.original_language.toUpperCase()}}</strong>
                             <span v-if="getFlag(media.original_language)">
                                 <img class="flag" :src="'img/'+getFlag(media.original_language)" alt="">
@@ -95,11 +107,17 @@
                                 <img class="flag" src="img/Flag_of_the_United_Nations.svg" alt="">
                             </span>
                         </p>
+                        <!-- Voto utenti -->
                         <p> 
                             <strong>User Rating: </strong>
                             <i v-for="star in voteInStars(media)" class="fa fa-star" :class="{'full-star': star, 'empty-star': !star}"></i>
                             ({{media.vote_average}}/10)
                         </p>
+                        <!-- cast -->
+                        <p><strong v-if="media.castMembers!=0">Cast: </strong>
+                            <span v-for="(actor, index) in media.castMembers" v-if="index < 5">{{actor.original_name}}; </span>
+                        </p>
+                        <!-- Estratto della trama -->
                         <p v-if="media.overview"><strong>Overview: </strong> {{media.overview}}</p>
                     </div>
                 </li>

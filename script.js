@@ -4,6 +4,7 @@ new Vue({
         contentResearch: "ciao",
         movieList: [],
         tvSeriesList: [],
+        castMembers: [],
         onLoad: "",
         researchFailed: false,
     },
@@ -17,7 +18,9 @@ new Vue({
                     query: this.contentResearch,
                     language: "it-IT",
                 }
-            }
+            };
+
+            //Crea due array, uno per le serie tv e uno per i film    
 
             axios.get("https://api.themoviedb.org/3/search/" + searchEntity, axiosOptions)
                 .then((resp) => {
@@ -33,8 +36,44 @@ new Vue({
                     } else {
                         this.researchFailed = false
                     }
-                })
+                });
+
+            //Riempie un array coi membri del cast dei vari film/serie tv
+            
         },
+
+        getCast(media) {
+
+            const axiosOptions = {
+                params: {
+                    api_key: "8ba1bb4e00bce0b3ac322114c49aba09",
+                }
+            };
+
+            const mediaType = media.name ? "tv" : "movie";
+
+            axios.get(`https://api.themoviedb.org/3/${mediaType}/${media.id}/credits`, axiosOptions)
+                .then((resp) => {
+                    
+                    this.$set(media, "castMembers", resp.data.cast);
+                });
+        },
+
+        getTvSeriesCast(tvSeries) {
+
+            const axiosOptions = {
+                params: {
+                    api_key: "8ba1bb4e00bce0b3ac322114c49aba09",
+                }
+            };
+
+            axios.get(`https://api.themoviedb.org/3/tv/${tvSeries.id}/credits`, axiosOptions)
+                .then((resp) => {
+
+                    this.$set(tvSeries, "castMembers", resp.data.cast);
+                });
+        },
+
 
         onUserSearch() {
             this.makeAxiosSearch("movie");

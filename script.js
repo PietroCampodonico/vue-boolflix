@@ -59,16 +59,15 @@ new Vue({
             }
         },
 
-        roundVote(vote) {
-            let voteToStars = vote/2;
-           
-            return Math.round(voteToStars)
-        },
+        voteInStars(media) {
+            const vote = Math.round(media.vote_average / 2);
+            const toReturn = [];
 
-        createEmptyStar(vote) {
-            let voteToStars = vote / 2;
+            for (let i = 1; i <= 5; i++) {
+                toReturn.push(i <= vote)
+            }
 
-            return 5 - Math.round(voteToStars) 
+            return toReturn;
         }
     },
 

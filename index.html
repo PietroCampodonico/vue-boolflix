@@ -14,14 +14,13 @@
     <title>BoolFlix</title>
 </head>
 <body>
-
-
-    <!-- FIXARE BUG IN CASO DI RICERCA "ASD" -->
+        <!-- FIXARE BUG IN CASO DI RICERCA "ASD" -->
 
     <div id="app">
         
         <!-- NAVBAR -->
-        <nav class="bg-black display-flex">
+        <nav class="display-flex">
+            
             <h1>BoolFlix</h1>
 
             <div class="user-interactables display-flex">
@@ -36,7 +35,7 @@
 
             <!-- FILM FILTRATI-->
             <ul class="display-flex">
-                <li v-for="media in movieList" class="bg-black">
+                <li v-for="media in movieList" class="bg-dkgrey">
 
                     <!-- Copertina se presente poster-->
                     <div class="poster-container" v-if="media.poster_path!==null">
@@ -62,9 +61,8 @@
                             </span>
                         </p>
                         <p>
-                            <strong>User Rating:</strong> 
-                            <i v-for="returnedNumber in roundVote(media.vote_average)" class="fa fa-star full-star" aria-hidden="true"></i>
-                            <i v-for="returnedNumber in createEmptyStar(media.vote_average)" class="fa fa-star empty-star" aria-hidden="true"></i>
+                            <strong>User Rating: </strong> 
+                            <i v-for="star in voteInStars(media)" class="fa fa-star" :class="{'full-star': star, 'empty-star': !star}"></i>
                             ({{media.vote_average}}/10)
                         </p>
                         <p v-if="media.overview"><strong>Overview: </strong>{{media.overview}}</p>
@@ -72,7 +70,7 @@
                 </li>
                 
                 <!-- SERIE TV FILTRATE -->
-                <li v-for="media in tvSeriesList" class="bg-black">
+                <li v-for="media in tvSeriesList" class="bg-dkgrey">
 
                     <!-- Copertina se presente poster-->
                     <div class="poster-container" v-if="media.poster_path!==null">
@@ -98,9 +96,8 @@
                             </span>
                         </p>
                         <p> 
-                            <strong>User Rating:</strong>
-                            <i v-for="returnedNumber in roundVote(media.vote_average)" class="fa fa-star full-star" aria-hidden="true"></i>
-                            <i v-for="returnedNumber in createEmptyStar(media.vote_average)" class="fa fa-star empty-star" aria-hidden="true"></i>
+                            <strong>User Rating: </strong>
+                            <i v-for="star in voteInStars(media)" class="fa fa-star" :class="{'full-star': star, 'empty-star': !star}"></i>
                             ({{media.vote_average}}/10)
                         </p>
                         <p v-if="media.overview"><strong>Overview: </strong> {{media.overview}}</p>

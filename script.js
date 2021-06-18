@@ -59,22 +59,6 @@ new Vue({
                 });
         },
 
-        getTvSeriesCast(tvSeries) {
-
-            const axiosOptions = {
-                params: {
-                    api_key: "8ba1bb4e00bce0b3ac322114c49aba09",
-                }
-            };
-
-            axios.get(`https://api.themoviedb.org/3/tv/${tvSeries.id}/credits`, axiosOptions)
-                .then((resp) => {
-
-                    this.$set(tvSeries, "castMembers", resp.data.cast);
-                });
-        },
-
-
         onUserSearch() {
             this.makeAxiosSearch("movie");
             this.makeAxiosSearch("tv");
